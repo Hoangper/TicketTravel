@@ -7,6 +7,8 @@ export interface InputProps {
   placeHolder: string;
   keyboardType?: any;
   onChangetext?: (text: string) => void;
+  value?: any;
+  style?: any;
 }
 
 const Input: React.FC<InputProps> = props => {
@@ -15,7 +17,10 @@ const Input: React.FC<InputProps> = props => {
       keyboardType={props.keyboardType}
       placeholder={props.placeHolder}
       onChangeText={props.onChangetext}
-      style={styles.textInput}
+      style={[styles.textInput, props.style]}
+      value={props.value} 
+      // {...props} 
+      
     />
   );
 };
@@ -27,9 +32,9 @@ const styles = StyleSheet.create({
   textInput: {
     width: size.width * 0.9,
     height: 48,
-    backgroundColor: colors.white,
+    // backgroundColor: colors.white,
     borderRadius: 8,
-    paddingHorizontal: 8,
-    marginTop: 20,
+    // paddingHorizontal: 8,
+    // marginTop: 20,
   },
 });

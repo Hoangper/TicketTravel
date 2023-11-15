@@ -20,7 +20,7 @@ export default TextCustom
 const styles = StyleSheet.create({
   textfield: {
     fontSize:20,
-    color:colors.lavender,
+    // color:colors.lavender,
     fontFamily:fonts.medium,
   },
   viewfield: {
