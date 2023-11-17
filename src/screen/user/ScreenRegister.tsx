@@ -6,13 +6,14 @@ import ButtonCustom from '../../components/ButtonCustom';
 import OtpInputCustom from '../../components/OtpInputCustom';
 import {colors} from '../../utils/color';
 import RadioCustom from '../../components/RadioCustom';
-import {axiosInstance} from "../../axios/axiosInstance"
+import axios from 'axios';
+//import {axiosInstance} from '../../axios/axiosInstance';
 
 const ScreenRegister = ({navigation}) => {
-    const [nubPhone, setNubPhone] = useState(""); 
-    const [name, setName] = useState(""); 
-    const [email, setEmail] = useState(""); 
-    const [age, setAge] = useState(""); 
+  const [nubPhone, setNubPhone] = useState('');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [age, setAge] = useState('');
   const [selectedOption, setSelectedOption] = useState<string>('');
 
   const handleSelect = (option: string): void => {
@@ -23,24 +24,46 @@ const ScreenRegister = ({navigation}) => {
     navigation.goBack();
   };
   const handleotp = () => {
-    setStateOtp(!stateOtp);
+    setStateOtp(false);
     console.log(stateOtp);
-    // goBack();
   };
 
-  const RegisterUser=()=>{
-    try {
-        // const register = 
-    } catch (error) {
-        
-    }
+  interface bodyRgister {
+    user_name: string;
+    user_email: string;
+    user_numberPhone: string;
+    user_age: string;
+    user_sex: string;
   }
+
+  const RegisterUser = async ({
+    user_name,
+    user_email,
+    user_sex,
+    user_numberPhone,
+    user_age,
+  }: bodyRgister) => {
+    try {
+      const body: bodyRgister = {
+        user_age: user_age,
+        user_name: user_name,
+        user_email: user_email,
+        user_sex: user_sex,
+        user_numberPhone: user_numberPhone,
+      };
+      console.log(body);
+      await axios.post('http://172.16.85.177:3500/user/api/register',body)
+      //await axiosInstance.post('user/register', body);
+      console.log('register success');
+    } catch (error) {
+      console.log('error register ' + error);
+    }
+  };
 
   //================================================================================================\\
   return (
     <ScrollView>
       <View style={styles.container}>
-
         <Image source={require('../../assets/media/img/logo-Auth.png')} />
         <TextCustom content="Welcome" textStyle={styles.txtWecome} />
         <TextCustom content="Register" textStyle={styles.txtYou} />
@@ -55,7 +78,6 @@ const ScreenRegister = ({navigation}) => {
               keyboardType="phone-pad"
               onChangeText={setNubPhone}
               value={nubPhone}
-
             />
             <TxtInputIcon
               styleTxtIP={styles.txtIpSDT}
@@ -63,6 +85,8 @@ const ScreenRegister = ({navigation}) => {
               iconSize={24}
               iconColor="#000"
               placeholder="nhập tên"
+              value={name}
+              onChangeText={setName}
             />
             <TxtInputIcon
               styleTxtIP={styles.txtIpSDT}
@@ -71,6 +95,8 @@ const ScreenRegister = ({navigation}) => {
               iconColor="#000"
               placeholder="nhập email"
               keyboardType="email-address"
+              onChangeText={setEmail}
+              value={email}
             />
             <TxtInputIcon
               styleTxtIP={styles.txtIpSDT}
@@ -79,6 +105,8 @@ const ScreenRegister = ({navigation}) => {
               iconColor="#000"
               placeholder="nhập tuổi"
               keyboardType="number-pad"
+              onChangeText={setAge}
+              value={age}
             />
 
             <View style={styles.radio}>
@@ -99,9 +127,17 @@ const ScreenRegister = ({navigation}) => {
               />
             </View>
             <ButtonCustom
-              content="Continue"
+              content="Register"
               buttonstyle={styles.btn}
-              onPress={handleotp}
+              onPress={() =>
+                RegisterUser({
+                  user_age: age,
+                  user_email: email,
+                  user_name: name,
+                  user_numberPhone: nubPhone,
+                  user_sex: selectedOption,
+                })
+              }
             />
           </>
         ) : (
