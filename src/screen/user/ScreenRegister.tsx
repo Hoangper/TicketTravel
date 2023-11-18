@@ -1,4 +1,4 @@
-import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {Alert, Image, ScrollView, StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
 import TextCustom from '../../components/TextCustom';
 import TxtInputIcon from '../../components/TextInputIcon';
@@ -8,6 +8,9 @@ import {colors} from '../../utils/color';
 import RadioCustom from '../../components/RadioCustom';
 import axios from 'axios';
 //import {axiosInstance} from '../../axios/axiosInstance';
+import auth from '@react-native-firebase/auth';
+import otp from '../otp';
+
 
 const ScreenRegister = ({navigation}) => {
   const [nubPhone, setNubPhone] = useState('');
@@ -16,10 +19,12 @@ const ScreenRegister = ({navigation}) => {
   const [age, setAge] = useState('');
   const [selectedOption, setSelectedOption] = useState<string>('');
 
+  const [verificationCode, setVerificationCode] = useState('');
+  const [stateOtp, setStateOtp] = useState(true);
+
   const handleSelect = (option: string): void => {
     setSelectedOption(option);
   };
-  const [stateOtp, setStateOtp] = useState(true);
   const goBack = () => {
     navigation.goBack();
   };
@@ -52,13 +57,47 @@ const ScreenRegister = ({navigation}) => {
         user_numberPhone: user_numberPhone,
       };
       console.log(body);
-      await axios.post('http://172.16.85.177:3500/user/api/register',body)
+      await axios.post('http://172.16.70.121:3500/user/api/register',body)
       //await axiosInstance.post('user/register', body);
       console.log('register success');
     } catch (error) {
       console.log('error register ' + error);
     }
   };
+
+
+  const [verificationId, setVerificationId] = useState('');
+  const [otpCode, setOTPCode] = useState('');
+
+  const sendOTP = async () => {
+    try {
+      const confirmation = await auth().signInWithPhoneNumber("+84"+nubPhone);
+      setVerificationId(confirmation.verificationId);
+      Alert.alert('OTP Sent!', 'Please check your messages for the OTP.');
+      handleotp();
+    } catch (error) {
+      Alert.alert('Error', 'Failed to send OTP. Please try again.');
+      console.log(error);
+
+    }
+  };
+
+  const verifyOTP = async () => {
+    try {
+      const credential = auth.PhoneAuthProvider.credential(verificationId, otpCode);
+      await auth().signInWithCredential(credential);
+      Alert.alert('OTP Verified!', 'You have been successfully verified.');
+      console.log("verification successful")
+      goBack();
+    } catch (error) {
+      console.log(error);
+
+      Alert.alert('Error', 'Failed to verify OTP. Please try again.');
+      // console.log(error);
+    }
+  };
+
+
 
   //================================================================================================\\
   return (
@@ -129,24 +168,17 @@ const ScreenRegister = ({navigation}) => {
             <ButtonCustom
               content="Register"
               buttonstyle={styles.btn}
-              onPress={() =>
-                RegisterUser({
-                  user_age: age,
-                  user_email: email,
-                  user_name: name,
-                  user_numberPhone: nubPhone,
-                  user_sex: selectedOption,
-                })
-              }
+              onPress={sendOTP}
             />
           </>
         ) : (
           <>
-            <OtpInputCustom constainerStyles={styles.Otp} />
+            <OtpInputCustom onChangeText={setOTPCode} constainerStyles={styles.Otp} 
+            />
             <ButtonCustom
               content="Continue"
               buttonstyle={styles.btn}
-              onPress={handleotp}
+              onPress={verifyOTP}
             />
           </>
         )}
