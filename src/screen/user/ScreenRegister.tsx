@@ -1,25 +1,30 @@
-import { Image, ScrollView, StyleSheet, Text, View, Alert } from 'react-native';
-import React, { useState } from 'react';
+import {Alert, Image, ScrollView, StyleSheet, Text, View} from 'react-native';
+import React, {useState} from 'react';
 import TextCustom from '../../components/TextCustom';
 import TxtInputIcon from '../../components/TextInputIcon';
 import ButtonCustom from '../../components/ButtonCustom';
 import OtpInputCustom from '../../components/OtpInputCustom';
-import { colors } from '../../utils/color';
+import {colors} from '../../utils/color';
 import RadioCustom from '../../components/RadioCustom';
 import axios from 'axios';
 //import {axiosInstance} from '../../axios/axiosInstance';
+import auth from '@react-native-firebase/auth';
+import otp from '../otp';
 
-const ScreenRegister = ({ navigation }) => {
+const ScreenRegister = ({navigation}) => {
   const [nubPhone, setNubPhone] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [age, setAge] = useState('');
   const [selectedOption, setSelectedOption] = useState<string>('');
+  const [checkOTP, setCheckOTP] = useState<Boolean>();
+
+  const [verificationCode, setVerificationCode] = useState('');
+  const [stateOtp, setStateOtp] = useState(true);
 
   const handleSelect = (option: string): void => {
     setSelectedOption(option);
   };
-  const [stateOtp, setStateOtp] = useState(true);
   const goBack = () => {
     navigation.goBack();
   };
@@ -36,8 +41,8 @@ const ScreenRegister = ({ navigation }) => {
       Alert.alert('Thông báo', 'Số điện thoại không hợp lệ .');
       return false;
     }
+    sendOTP();
     handleotp();
-
   };
 
   interface bodyRgister {
@@ -55,20 +60,56 @@ const ScreenRegister = ({ navigation }) => {
     user_numberPhone,
     user_age,
   }: bodyRgister) => {
+    if (checkOTP) {
+      try {
+        const body: bodyRgister = {
+          user_age: user_age,
+          user_name: user_name,
+          user_email: user_email,
+          user_sex: user_sex,
+          user_numberPhone: user_numberPhone,
+        };
+        console.log(body);
+        await axios.post('http://172.16.126.121:3500/user/api/register', body);
+        //await axiosInstance.post('user/register', body);
+        console.log('register success');
+      } catch (error) {
+        console.log('error register ' + error);
+      }
+    }
+  };
+
+  const [verificationId, setVerificationId] = useState('');
+  const [otpCode, setOTPCode] = useState('');
+
+  const sendOTP = async () => {
     try {
-      const body: bodyRgister = {
-        user_age: user_age,
-        user_name: user_name,
-        user_email: user_email,
-        user_sex: user_sex,
-        user_numberPhone: user_numberPhone,
-      };
-      console.log(body);
-      await axios.post('http://172.16.126.121:3500/user/api/register', body)
-      //await axiosInstance.post('user/register', body);
-      console.log('register success');
+      const confirmation = await auth().signInWithPhoneNumber('+84' + nubPhone);
+      setVerificationId(confirmation.verificationId);
+      Alert.alert('OTP Sent!', 'Please check your messages for the OTP.');
+      handleotp();
     } catch (error) {
-      console.log('error register ' + error);
+      Alert.alert('Error', 'Failed to send OTP. Please try again.');
+      console.log(error);
+    }
+  };
+
+  const verifyOTP = async () => {
+    try {
+      const credential = auth.PhoneAuthProvider.credential(
+        verificationId,
+        otpCode,
+      );
+      await auth().signInWithCredential(credential);
+      Alert.alert('OTP Verified!', 'You have been successfully verified.');
+      console.log('verification successful');
+      setCheckOTP(true);
+    } catch (error) {
+      console.log(error);
+
+      Alert.alert('Error', 'Failed to verify OTP. Please try again.');
+      setCheckOTP(false);
+      // console.log(error);
     }
   };
 
@@ -141,24 +182,27 @@ const ScreenRegister = ({ navigation }) => {
             <ButtonCustom
               content="Register"
               buttonstyle={styles.btn}
-              onPress={
-                validateRegistration
-              }
+              onPress={validateRegistration}
             />
           </>
         ) : (
           <>
-            <OtpInputCustom constainerStyles={styles.Otp} />
+            <OtpInputCustom
+              onChangeText={setOTPCode}
+              constainerStyles={styles.Otp}
+            />
             <ButtonCustom
               content="Continue"
               buttonstyle={styles.btn}
-              onPress={() => RegisterUser({
+              onPress={() =>
+                RegisterUser({
                   user_age: age,
                   user_email: email,
                   user_name: name,
                   user_numberPhone: nubPhone,
                   user_sex: selectedOption,
-              })}
+                })
+              }
             />
           </>
         )}
