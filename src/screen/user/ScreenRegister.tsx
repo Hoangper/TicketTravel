@@ -1,15 +1,15 @@
-import {Image, ScrollView, StyleSheet, Text, View, Alert} from 'react-native';
-import React, {useState} from 'react';
+import { Image, ScrollView, StyleSheet, Text, View, Alert } from 'react-native';
+import React, { useState } from 'react';
 import TextCustom from '../../components/TextCustom';
 import TxtInputIcon from '../../components/TextInputIcon';
 import ButtonCustom from '../../components/ButtonCustom';
 import OtpInputCustom from '../../components/OtpInputCustom';
-import {colors} from '../../utils/color';
+import { colors } from '../../utils/color';
 import RadioCustom from '../../components/RadioCustom';
 import axios from 'axios';
 //import {axiosInstance} from '../../axios/axiosInstance';
 
-const ScreenRegister = ({navigation}) => {
+const ScreenRegister = ({ navigation }) => {
   const [nubPhone, setNubPhone] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -28,15 +28,17 @@ const ScreenRegister = ({navigation}) => {
     console.log(stateOtp);
   };
   const validateRegistration = () => {
-  if (!name || !email || !age || !nubPhone || !selectedOption) {
-    Alert.alert('Thông báo', 'Vui lòng điền đầy đủ thông tin.');
-    return false;
-  }
-  if (nubPhone.length < 10){
-    Alert.alert('Thông báo', 'Số điện thoại không hợp lệ.');
-  }
-  
-};
+    if (!name || !email || !age || !nubPhone || !selectedOption) {
+      Alert.alert('Thông báo', 'Vui lòng điền đầy đủ thông tin.');
+      return false;
+    }
+    if (nubPhone.length < 10) {
+      Alert.alert('Thông báo', 'Số điện thoại không hợp lệ .');
+      return false;
+    }
+    handleotp();
+
+  };
 
   interface bodyRgister {
     user_name: string;
@@ -62,7 +64,7 @@ const ScreenRegister = ({navigation}) => {
         user_numberPhone: user_numberPhone,
       };
       console.log(body);
-      await axios.post('http://172.16.90.78:3500/user/api/register',body)
+      await axios.post('http://172.16.126.121:3500/user/api/register', body)
       //await axiosInstance.post('user/register', body);
       console.log('register success');
     } catch (error) {
@@ -150,7 +152,13 @@ const ScreenRegister = ({navigation}) => {
             <ButtonCustom
               content="Continue"
               buttonstyle={styles.btn}
-              onPress={handleotp}
+              onPress={() => RegisterUser({
+                  user_age: age,
+                  user_email: email,
+                  user_name: name,
+                  user_numberPhone: nubPhone,
+                  user_sex: selectedOption,
+              })}
             />
           </>
         )}
