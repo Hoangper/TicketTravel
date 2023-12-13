@@ -11,30 +11,16 @@ import ScreenHome from './src/screen/ticket/ScreenHome';
 import ScreenRegister from './src/screen/user/ScreenRegister';
 import ScreenTest from './src/screen/user/ScreenTest';
 import ScreenStack from './src/screen/user/ScreenStack';
+import ScreenFinding from './src/screen/ticket/ScreenFinding';
 
 const App = () => {
-  return <ScreenStack/>;
+  // return <ScreenStack/>;
   // return <ScreenHome />;
-
+return<ScreenFinding/>
   // return <ScreenAuth />;
   // return <ScreenTest/>;
-  return <ScreenRegister />;
+  // return <ScreenRegister />;
   return <OtpInputCustom />;
-  return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: colors.primary,
-        justifyContent: 'center',
-        alignItems: 'center',
-        gap: 10,
-      }}>
-      {/* <ButtonCustom content='Hoàng Ngu'/>
-     <ButtonCustom content='Như Bò' buttonstyle={styles.button}/> */}
-      <TextCustom content="A B C" />
-      <TextCustom content="A B C" textStyle={styles.text} />
-    </View>
-  );
 };
 
 export default App;
