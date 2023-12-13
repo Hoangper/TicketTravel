@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "740124083520",
+    "project_id": "tickettrave",
+    "storage_bucket": "tickettrave.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:740124083520:android:b7aefea0a01e2b7ace66a5",
+        "android_client_info": {
+          "package_name": "com.tickettravel"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnzPc-SCAsNIv6a20KVJB6JCkwP9vDWhk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
