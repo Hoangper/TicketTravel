@@ -7,12 +7,10 @@ import ScreenRegister from './ScreenRegister';
 const Stack = createNativeStackNavigator();
 const ScreenStack = () => {
   return (
-    <NavigationContainer>
     <Stack.Navigator screenOptions={{headerShown:false}}>
       <Stack.Screen name="Login" component={ScreenAuth} />
       <Stack.Screen name="Register" component={ScreenRegister} />
     </Stack.Navigator>
-  </NavigationContainer>
   )
 }
 

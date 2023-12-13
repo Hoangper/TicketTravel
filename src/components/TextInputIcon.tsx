@@ -2,7 +2,7 @@ import { View, TextInput, StyleSheet, TextInputProps } from 'react-native'
 import React from 'react'
 import {colors} from '../utils/color';
 import {size} from '../utils/size';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+// import Icon from 'react-native-vector-icons/FontAwesome5';
 
 export interface CustomTextInputIconProps extends TextInputProps {
     icon: string;
@@ -15,7 +15,7 @@ export interface CustomTextInputIconProps extends TextInputProps {
   const TxtInputIcon: React.FC<CustomTextInputIconProps> = props => {
     return (
         <View style={[styles.inputContainer,props.styleTxtIP]}>
-          <Icon name={props.icon} size={props.iconSize} color={props.iconColor} style={[styles.icon,props.styleIcon]} />
+          {/* <Icon name={props.icon} size={props.iconSize} color={props.iconColor} style={[styles.icon,props.styleIcon]} /> */}
           <TextInput
             style={styles.textInput}
             {...props} // Truyền tất cả các props còn lại vào TextInput
