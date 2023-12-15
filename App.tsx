@@ -12,11 +12,12 @@ import ScreenRegister from './src/screen/user/ScreenRegister';
 import ScreenTest from './src/screen/user/ScreenTest';
 import ScreenStack from './src/screen/user/ScreenStack';
 import ScreenFinding from './src/screen/ticket/ScreenFinding';
-
+import ScreenBoardandFind from './src/screen/ticket/ScreenBoardandFind';
 const App = () => {
   // return <ScreenStack/>;
   // return <ScreenHome />;
-return<ScreenFinding/>
+  return <ScreenBoardandFind/>
+// return<ScreenFinding/>
   // return <ScreenAuth />;
   // return <ScreenTest/>;
   // return <ScreenRegister />;
