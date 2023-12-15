@@ -8,6 +8,9 @@ import {
 import React from 'react';
 import TextCustom from '../../components/TextCustom';
 import FindBusItem from '../../components/FindBusItem';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import { RootMainParamList } from '../navigation/RootNavigation';
+
 
 export interface IFindBusItem {
   _id: string;
@@ -84,12 +87,15 @@ const exampleData: IFindBusItem[] = [
     seatLeft: 8,
   },
 ];
-const ScreenFinding = () => {
+
+type Props = NativeStackScreenProps<RootMainParamList>;
+const ScreenFinding = (props:Props)=> {
+  const {navigation} = props;
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity style={styles.iconBack}>
-          <Image source={require('../../assets/img/arrowback.png')} />
+        <TouchableOpacity style={styles.iconBack} onPress={()=> navigation.goBack()}>
+          <Image source={require('../../assets/media/img/arrowback.png')} />
         </TouchableOpacity>
         <TextCustom textStyle={styles.txtTitle} content="Select your bus!" />
         <View style={styles.horizontalView}>
@@ -97,7 +103,7 @@ const ScreenFinding = () => {
           <TouchableOpacity>
             <Image
               style={[{alignSelf: 'center'}]}
-              source={require('../../assets/img/arrowswaphorizontal.png')}
+              source={require('../../assets/media/img/arrowswaphorizontal.png')}
             />
           </TouchableOpacity>
           <TextCustom textStyle={styles.txtTo} content="To" />
@@ -108,7 +114,7 @@ const ScreenFinding = () => {
         />
         <Image
           style={[{alignSelf: 'center', marginTop: 12}]}
-          source={require('../../assets/img/bus-1.png')}
+          source={require('../../assets/media/img/bus-1.png')}
         />
       </View>
       <View style={styles.findBusView}>
@@ -175,7 +181,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     width: '100%',
     justifyContent: 'center',
-    alignItems: 'center', 
+    alignItems: 'center',
     gap: 10,
   },
   findBusView: {

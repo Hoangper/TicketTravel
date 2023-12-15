@@ -24,9 +24,9 @@ const FindBusItem = (props: Props) => {
           {data.seatLeft} seat left
         </Text>
         <View style={styles.iconView}>
-          <Image source={require('../assets/img/gps.png')} />
-          <Image source={require('../assets/img/batterycharging.png')} />
-          <Image source={require('../assets/img/ticket.png')} />
+          <Image source={require('../assets/media/img/gps.png')} />
+          <Image source={require('../assets/media/img/batterycharging.png')} />
+          <Image source={require('../assets/media/img/ticket.png')} />
         </View>
       </View>
     </View>
