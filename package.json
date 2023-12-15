@@ -18,8 +18,6 @@
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/native-stack": "^6.9.17",
     "@reduxjs/toolkit": "^1.9.7",
-    "@rneui/base": "^4.0.0-rc.8",
-    "@rneui/themed": "^4.0.0-rc.8",
     "axios": "^1.6.2",
     "directory": "^0.1.0",
     "font-awesome": "^4.7.0",

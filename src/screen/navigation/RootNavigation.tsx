@@ -1,18 +1,14 @@
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import ScreenAuth from '../user/ScreenAuth';
-import ScreenRegister from '../user/ScreenRegister';
-import ScreenStack from '../user/ScreenStack';
-import ScreenHome from '../ticket/ScreenHome';
-import ScreenTicket from '../ticket/ScreenTicket';
-import {Image, Text} from 'react-native';
+import { Image, Text } from 'react-native';
 import ScreenFinding from '../ticket/ScreenFinding';
-import ScreenWallet from '../ticket/ScreenWallet';
-import ScreenDetailTicket from '../ticket/ScreenDetailTicket';
-import ScreenGuestDetails from '../ticket/ScreenGuestDetails';
+import ScreenHome from '../ticket/ScreenHome';
 import ScreenProfile from '../ticket/ScreenProfile';
+import ScreenTicket from '../ticket/ScreenTicket';
+import ScreenWallet from '../ticket/ScreenWallet';
+import ScreenRegister from '../user/ScreenRegister';
 
 export type RootAuthParamList = {
   ScreenAuth: undefined;
